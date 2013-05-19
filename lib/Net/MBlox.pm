@@ -3,7 +3,7 @@ package Net::MBlox;
 # VERSION
 our $VERSION = "???";
 
-# ABSTRACT link to the mblox api for sending SMS
+# ABSTRACT: link to the MBlox api for sending SMS
 
 use HTTP::Request::Common;
 use HTTP::Request;
