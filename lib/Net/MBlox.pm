@@ -1,6 +1,9 @@
 package Net::MBlox;
 
+# VERSION
 our $VERSION = "???";
+
+# ABSTRACT link to the mblox api for sending SMS
 
 use HTTP::Request::Common;
 use HTTP::Request;
@@ -16,7 +19,6 @@ has 'access_token' => ( is => 'rw', predicate => 1);
 has 'api_url' => (is => 'ro', default => 'https://api.mblox.com/v1/apps/');
 
 has 'ua' => (
-  #isa     => 'WWW::Mechanize::GZip',
   is      => 'lazy',
 );
 
@@ -51,7 +53,6 @@ sub get_token {
     my $json = decode_json($res->content);
     $self->access_token($json->{'access_token'});
   }
-  warn $self->access_token;
 }
 
 sub query {
@@ -77,7 +78,6 @@ sub query {
 
   $ua->default_header('Authorization', "Bearer " . $self->access_token);
 
-  warn $url;
   my $req = HTTP::Request->new( $request_method, $url );
 
   if ($data) {
@@ -89,15 +89,15 @@ sub query {
   my $res = $ua->request($req);
 
   #if denied, re-get token
-  warn $res->code;
-  warn $res->as_string;
+  #warn $res->code;
+  #warn $res->as_string;
 
   $res;
 }
 
 =head1 NAME
 
-WWW::MBlox - link to the mblox api for sending SMS
+Net::MBlox - link to the mblox api for sending SMS
 
 =head1 SYNOPSIS
 
