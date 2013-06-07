@@ -1,7 +1,6 @@
 package Net::MBlox;
 
 # VERSION
-our $VERSION = "???";
 
 # ABSTRACT: link to the MBlox api for sending SMS
 
@@ -25,7 +24,7 @@ has 'ua' => (
 sub _build_ua {
   my $self = shift;
   return WWW::Mechanize::GZip->new(
-    agent       => "perl-net-mblox $VERSION",
+    agent       => "perl-net-mblox",
     cookie_jar  => {},
     stack_depth => 1,
     autocheck   => 0,
@@ -55,48 +54,52 @@ sub get_token {
   }
 }
 
-sub query {
-  my $self = shift;
+{
+  my $retries = 0;
+  sub query {
+    my $self = shift;
 
-  my @args = @_;
+    my @args = @_;
 
-  if (@args == 1) {
-    unshift @args, 'GET'; # method by default
-  } elsif (@args > 1 and not (grep { $args[0] eq $_ } ('GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE')) ) {
-    unshift @args, 'POST'; # if POST content
+    if (@args == 1) {
+      unshift @args, 'GET'; # method by default
+    } elsif (@args > 1 and not (grep { $args[0] eq $_ } ('GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE')) ) {
+      unshift @args, 'POST'; # if POST content
+    }
+    my $request_method = shift @args;
+    my $url = shift @args;
+    $url = $self->api_url . $self->app_id . '/' . $url unless $url =~ /^https\:/;
+
+    my $data = shift @args;
+    my $ua = $self->ua;
+    $ua->default_header('Content-Type', "application/json");
+
+    ## always go with login:pass or access_token (for private repos)
+    unless ($self->has_access_token) { $self->get_token }
+
+    $ua->default_header('Authorization', "Bearer " . $self->access_token);
+
+    my $req = HTTP::Request->new( $request_method, $url );
+
+    if ($data) {
+      my $json = encode_json($data);
+      $req->content($json);
+    }
+
+    $req->header( 'Content-Length' => length $req->content );
+    my $res = $ua->request($req);
+
+    #if denied, re-get token, once, or fail permanently.
+    if($res->code == 401 && $retries++ < 10) {
+      $self->get_token;
+      $res = $self->query(@_);
+    }
+    #warn $res->code;
+    #warn $res->as_string;
+
+    if($res->code == 200) { $retries = 0 }
+    $res;
   }
-  my $request_method = shift @args;
-  my $url = shift @args;
-  $url = $self->api_url . $self->app_id . '/' . $url unless $url =~ /^https\:/;
-
-  my $data = shift @args;
-  my $ua = $self->ua;
-  $ua->default_header('Content-Type', "application/json");
-
-  ## always go with login:pass or access_token (for private repos)
-  unless ($self->has_access_token) { $self->get_token }
-
-  $ua->default_header('Authorization', "Bearer " . $self->access_token);
-
-  my $req = HTTP::Request->new( $request_method, $url );
-
-  if ($data) {
-    my $json = encode_json($data);
-    $req->content($json);
-  }
-
-  $req->header( 'Content-Length' => length $req->content );
-  my $res = $ua->request($req);
-
-  #if denied, re-get token, once, or fail permanently.
-  if($res->code == 401) {
-    $self->get_token;
-    $res = $self->query(@_);
-  }
-  #warn $res->code;
-  #warn $res->as_string;
-
-  $res;
 }
 
 =head1 NAME

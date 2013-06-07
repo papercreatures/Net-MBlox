@@ -1,4 +1,4 @@
-use Test::More;
+use Test::More skip_all => "Requires token";
 
 BEGIN { use_ok( 'Net::MBlox' ) }
 
