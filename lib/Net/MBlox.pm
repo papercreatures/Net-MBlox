@@ -4,6 +4,8 @@ package Net::MBlox;
 
 # ABSTRACT: link to the MBlox api for sending SMS
 
+use strict;
+use warnings;
 use HTTP::Request::Common;
 use HTTP::Request;
 use WWW::Mechanize::GZip;
