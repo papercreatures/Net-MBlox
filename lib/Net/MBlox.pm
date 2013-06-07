@@ -1,11 +1,11 @@
 package Net::MBlox;
+use strict;
+use warnings;
 
 # VERSION
 
 # ABSTRACT: link to the MBlox api for sending SMS
 
-use strict;
-use warnings;
 use HTTP::Request::Common;
 use HTTP::Request;
 use WWW::Mechanize::GZip;

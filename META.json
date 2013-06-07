@@ -46,7 +46,9 @@
             "MIME::Base64" : "0",
             "Moo" : "0",
             "WWW::Mechanize::GZip" : "0",
-            "perl" : "5.006"
+            "perl" : "5.006",
+            "strict" : "0",
+            "warnings" : "0"
          }
       },
       "test" : {
@@ -56,9 +58,7 @@
             "File::Spec::Functions" : "0",
             "File::Temp" : "0",
             "List::Util" : "0",
-            "Test::More" : "0",
-            "strict" : "0",
-            "warnings" : "0"
+            "Test::More" : "0"
          }
       }
    },
