@@ -88,7 +88,11 @@ sub query {
   $req->header( 'Content-Length' => length $req->content );
   my $res = $ua->request($req);
 
-  #if denied, re-get token
+  #if denied, re-get token, once, or fail permanently.
+  if($res->code == 401) {
+    $self->get_token;
+    $res = $self->query(@_);
+  }
   #warn $res->code;
   #warn $res->as_string;
 
