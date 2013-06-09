@@ -17,7 +17,7 @@ has 'consumer_key' => ( is => 'rw', predicate => 1, required => 1);
 has 'consumer_secret' => ( is => 'rw', predicate => 1, required => 1);
 has 'app_id' => ( is => 'rw', predicate => 1, required => 1);
 has 'access_token' => ( is => 'rw', predicate => 1);
-has 'api_url' => (is => 'ro', default => 'https://api.mblox.com/v1/apps/');
+has 'api_url' => (is => 'ro', default => sub { 'https://api.mblox.com/v1/apps/' });
 
 has 'ua' => (
   is      => 'lazy',
