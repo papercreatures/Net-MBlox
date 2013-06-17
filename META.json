@@ -43,6 +43,7 @@
             "HTTP::Request" : "0",
             "HTTP::Request::Common" : "0",
             "JSON::XS" : "0",
+            "LWP::Protocol::https" : "0",
             "MIME::Base64" : "0",
             "Moo" : "0",
             "WWW::Mechanize::GZip" : "0",
@@ -65,7 +66,7 @@
    "provides" : {
       "Net::MBlox" : {
          "file" : "lib/Net/MBlox.pm",
-         "version" : "0.002"
+         "version" : "0.003"
       }
    },
    "release_status" : "stable",
@@ -80,6 +81,6 @@
          "web" : "https://github.com/purge/net-mblox"
       }
    },
-   "version" : "0.002"
+   "version" : "0.003"
 }
 
