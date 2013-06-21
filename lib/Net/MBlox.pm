@@ -74,11 +74,11 @@ sub get_token {
 
     my $data = shift @args;
     my $ua = $self->ua;
-    $ua->default_header('Content-Type', "application/json");
 
     ## always go with login:pass or access_token (for private repos)
     unless ($self->has_access_token) { $self->get_token }
 
+    $ua->default_header('Content-Type', "application/json");
     $ua->default_header('Authorization', "Bearer " . $self->access_token);
 
     my $req = HTTP::Request->new( $request_method, $url );
