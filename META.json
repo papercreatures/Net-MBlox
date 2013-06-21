@@ -4,7 +4,7 @@
       "Simon Elliott <simon@papercreatures.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300030, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560",
    "license" : [
       "perl_5"
    ],
@@ -66,7 +66,7 @@
    "provides" : {
       "Net::MBlox" : {
          "file" : "lib/Net/MBlox.pm",
-         "version" : "0.003"
+         "version" : "0.004"
       }
    },
    "release_status" : "stable",
@@ -81,6 +81,6 @@
          "web" : "https://github.com/purge/net-mblox"
       }
    },
-   "version" : "0.003"
+   "version" : "0.004"
 }
 

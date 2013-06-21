@@ -8,7 +8,7 @@ Net::MBlox - link to the MBlox api for sending SMS
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
